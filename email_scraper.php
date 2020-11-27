@@ -5,7 +5,7 @@ $emails = scrape_email($url);
 echo implode($emails, ' ');
 
 function scrape_email($url) {
-    if (!is_string($url) ) {
+    if ( !is_string($url) ) {
         return '';
     }
     //$result = @file_get_contents($url);
