@@ -68,7 +68,7 @@ $req = base()->select("emails", ['email']);
     </div>
     <div class="container">
         <div class="row">
-        <h4 class="text-center">Email's list</h4>
+        <h4 class="text-center">Email's list :</h4>
             <div class="col-12">
                 <table class='table table-light table-hover table-striped table-bordered table-sm'>
                     <?php $i = 0;
