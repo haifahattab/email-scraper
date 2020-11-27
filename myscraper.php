@@ -4,7 +4,7 @@ include 'email_scraper.php';
 
 use Medoo\Medoo;
 
-//Initialisation
+//Se connecter à la data base
 function base()
 {
     $database = new Medoo([
@@ -17,9 +17,10 @@ function base()
 
     return $database;
 }
+//Insertion
 function getEmail($url)
 {
-    // $url = 'https://github.com/nyxgeek/username-lists/blob/master/usernames-top100/usernames_gmail.com.txt';
+    //$url = 'https://github.com/nyxgeek/username-lists/blob/master/usernames-top100/usernames_gmail.com.txt';
     $emails = scrape_email($url);
     foreach ($emails as $mail) {
 
@@ -27,15 +28,13 @@ function getEmail($url)
     }
 }
 
+//recuperation des emails à partir d'un url entrée dans l'input
 if (isset($_POST["submit"])) {
     $url = htmlspecialchars($_POST["url"]);
-
     getEmail($url);
 }
-
-$req = base()->select("email", ['mail']);
-
-
+//recuperer les emails qui sont dans la data base
+$req = base()->select("emails", ['email']);                               
 ?>
 
 <!DOCTYPE html>
@@ -48,8 +47,8 @@ $req = base()->select("email", ['mail']);
     <title>Niveau 3 Boss1</title>
 </head>
 
-<body class="bg-primary">
-    <h1 class="text-center"> Le Scraper d'email</h1>
+<body>
+    <h1 class="text-center">The scraper email</h1>
     
     <div class="container p-2">
         <div class="row">
@@ -57,7 +56,7 @@ $req = base()->select("email", ['mail']);
                 <div class="d-flex justify-content-center">
                     <form action="" method="post">
                         <div class="form-group d-flex justify-content-center">
-                            <input class="form-control form-control-sm" type="text" id="url" name="url" placeholder="Entrez votre url">
+                            <input class="form-control form-control-sm" type="url" id="url" name="url" placeholder="Entrez votre url">
                         </div>
                         <div class="d-flex justify-content-center">
                             <input class='btn btn-sm btn-danger' type="submit" value="Envoyer" name="submit">
@@ -69,6 +68,7 @@ $req = base()->select("email", ['mail']);
     </div>
     <div class="container">
         <div class="row">
+        <h4 class="text-center">Email's list</h4>
             <div class="col-12">
                 <table class='table table-light table-hover table-striped table-bordered table-sm'>
                     <?php $i = 0;
@@ -77,7 +77,7 @@ $req = base()->select("email", ['mail']);
                             <tr>
                             <?php endif; ?>
 
-                            <td class="text-center m-0"><?= $email['mail'] ?></td>
+                            <td class="text-center m-0"><?= $email['email'] ?></td>
                             <?php if ($i == 5) : $i = 0 ?>
                             </tr>
                         <?php endif; ?>
